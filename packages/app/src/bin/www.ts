@@ -19,7 +19,7 @@ const __dirname = path.dirname(__filename);
  * load configuration from .env files (supplementing environment vars)
  */
 loadEnv({ path: path.resolve(__dirname, "../.env") });
-const debug = initDebug("hello-world-web:server");
+const debug = initDebug("web-platform-lab:server");
 
 /**
  * Get port from environment and store in Express.

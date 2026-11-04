@@ -1,6 +1,6 @@
 # CI Troubleshooting Guide
 
-This guide provides solutions for common CI failures in the hello-world-web project.
+This guide provides solutions for common CI failures in the web-platform-lab project.
 
 ## Pre-Push Verification
 

@@ -1,5 +1,5 @@
 {
-  "name": "@hello-world-web/e2e-tests",
+  "name": "@web-platform-lab/e2e-tests",
   "private": true,
   "type": "module",
   "devDependencies": {

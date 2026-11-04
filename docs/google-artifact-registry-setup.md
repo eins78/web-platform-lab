@@ -52,6 +52,10 @@ gcloud projects list --format="table(projectId,name)"
 gcloud config set project YOUR_PROJECT_ID
 ```
 
+**Names from before the rename**: the examples show this project's real GCP project (`hello-world-web-474516`) and
+Artifact Registry repository (`hello-world-web`). They keep the name from before the rename to `web-platform-lab`,
+because neither can be renamed, only recreated. The image inside the repository is named `web-platform-lab`.
+
 ### Step 1: Enable Artifact Registry API
 
 ```bash
@@ -187,9 +191,11 @@ GCP_WORKLOAD_IDENTITY_PROVIDER
    - Authenticates to Google Cloud using Workload Identity Federation
    - Builds multi-platform Docker image (linux/amd64, linux/arm64)
    - Pushes to **three registries in parallel**:
-     - GAR: `{region}-docker.pkg.dev/{project}/{repo}/hello-world-web:sha-{commit}`
-     - GHCR: `ghcr.io/eins78/hello-world-web:main`
-     - Docker Hub: `eins78/hello-world-web:main`
+     - GAR: `{region}-docker.pkg.dev/{project}/{repo}/web-platform-lab:sha-{commit}`
+     - GHCR: `ghcr.io/eins78/web-platform-lab:main`
+     - Docker Hub: `eins78/web-platform-lab:main`
+     - during the transition after the rename, also the old names `ghcr.io/eins78/hello-world-web` and
+       `eins78/hello-world-web` on GHCR and Docker Hub
 
 ### Cloud Run Deployment Flow
 
@@ -243,7 +249,7 @@ gcloud artifacts docker images list \
 
 # List tags for specific image
 gcloud artifacts docker images list \
-  $GAR_LOCATION-docker.pkg.dev/$GCP_PROJECT_ID/$GAR_REPOSITORY/hello-world-web \
+  $GAR_LOCATION-docker.pkg.dev/$GCP_PROJECT_ID/$GAR_REPOSITORY/web-platform-lab \
   --include-tags \
   --project=$GCP_PROJECT_ID
 ```
@@ -253,7 +259,7 @@ gcloud artifacts docker images list \
 ```bash
 # Delete specific image by tag
 gcloud artifacts docker images delete \
-  $GAR_LOCATION-docker.pkg.dev/$GCP_PROJECT_ID/$GAR_REPOSITORY/hello-world-web:old-tag \
+  $GAR_LOCATION-docker.pkg.dev/$GCP_PROJECT_ID/$GAR_REPOSITORY/web-platform-lab:old-tag \
   --project=$GCP_PROJECT_ID
 ```
 
@@ -369,7 +375,7 @@ gcloud artifacts repositories get-iam-policy $GAR_REPOSITORY \
 ```bash
 # Verify image exists in GAR
 gcloud artifacts docker images list \
-  $GAR_LOCATION-docker.pkg.dev/$GCP_PROJECT_ID/$GAR_REPOSITORY/hello-world-web \
+  $GAR_LOCATION-docker.pkg.dev/$GCP_PROJECT_ID/$GAR_REPOSITORY/web-platform-lab \
   --project=$GCP_PROJECT_ID
 
 # Check image tag matches deployment

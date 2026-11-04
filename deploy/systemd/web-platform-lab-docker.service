@@ -1,0 +1,17 @@
+[Unit]
+Description=Web Platform Lab
+Documentation=https://github.com/eins78/web-platform-lab/blob/main/README.md
+Requires=docker.service
+After=docker.service
+
+[Service]
+# optional config file
+EnvironmentFile=-/etc/web-platform-lab.conf
+# start the container interactive, logs are written to the journal
+ExecStart=/usr/bin/docker run --rm --name web-platform-lab-daemon -e APP_TITLE -e PORT -p "${PORT}:${PORT}" ghcr.io/eins78/web-platform-lab:main
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+

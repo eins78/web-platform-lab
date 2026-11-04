@@ -1,27 +1,47 @@
 {
-  "name": "hello-world-web",
+  "name": "web-platform-lab",
   "version": "2.0.0-rc.3",
+  "description": "Small web server for testing and debugging HTTP, web platform features and web infrastructure (formerly hello-world-web)",
+  "keywords": [
+    "web-platform",
+    "http",
+    "debugging",
+    "testing",
+    "docker",
+    "lit",
+    "ssr"
+  ],
+  "homepage": "https://github.com/eins78/web-platform-lab#readme",
+  "bugs": {
+    "url": "https://github.com/eins78/web-platform-lab/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eins78/web-platform-lab.git",
+    "directory": "packages/app"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "type": "module",
   "bin": {
+    "web-platform-lab": "./src/bin/www.ts",
     "hello-world-web": "./src/bin/www.ts",
     "healthcheck": "./src/bin/healthcheck.mts"
   },
   "scripts": {
-    "start": "DEBUG='hello-world-web:*' NODE_ENV=production node --experimental-strip-types ./src/bin/www.ts",
-    "dev": "DEBUG='hello-world-web:*' nodemon -d 1.0 -e html,ts,tsx,js,css,json,env -w '**/*' -w .env --exec node --experimental-strip-types ./src/bin/www.ts",
+    "start": "DEBUG='web-platform-lab:*' NODE_ENV=production node --experimental-strip-types ./src/bin/www.ts",
+    "dev": "DEBUG='web-platform-lab:*' nodemon -d 1.0 -e html,ts,tsx,js,css,json,env -w '**/*' -w .env --exec node --experimental-strip-types ./src/bin/www.ts",
     "healthcheck": "node --experimental-strip-types --experimental-fetch --no-warnings src/bin/healthcheck.mts || exit 1",
     "dist": "pnpm run ci",
     "clean": "rimraf dist src/views/lit-ssr-demo/lib",
     "dev-trace-sync-io": "cross-env-shell 'export NODE_OPTIONS='--trace-sync-io' && $npm_execpath run dev:server'",
     "prepublishOnly": "npm shrinkwrap --omit=dev",
-    "pack": "run-s clean build && pnpm pack && realpath hello-world-web-*.tgz"
+    "pack": "run-s clean build && pnpm pack && realpath web-platform-lab-*.tgz"
   },
   "dependencies": {
-    "@hello-world-web/lit-ssr-demo": "workspace:*",
     "@lit-labs/ssr": "4.1.0",
+    "@web-platform-lab/lit-ssr-demo": "workspace:*",
     "cookie-parser": "~1.4.6",
     "debug": "~4.4.0",
     "dotenv": "^18.0.7",

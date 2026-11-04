@@ -1,4 +1,7 @@
-# hello-world-web
+# web-platform-lab
+
+Formerly `hello-world-web`: the project was renamed for 2.0.0. The 1.x versions were published on npm as
+[`hello-world-web`](https://www.npmjs.com/package/hello-world-web); 2.0.0 is the first release as `web-platform-lab`.
 
 ## 2.0.0-rc.3
 

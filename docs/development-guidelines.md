@@ -1,6 +1,6 @@
 # Development Guidelines
 
-This document outlines code quality standards and best practices for the hello-world-web project.
+This document outlines code quality standards and best practices for the web-platform-lab project.
 
 ## Package Management Security
 
@@ -162,7 +162,7 @@ export function isValidSemverWithNonZeroMajor(version: string): boolean {
 
 ```typescript
 env: {
-  DEBUG: "hello-world-web:*",  // Consistent double quotes
+  DEBUG: "web-platform-lab:*",  // Consistent double quotes
   NODE_ENV: "production"
 }
 ```

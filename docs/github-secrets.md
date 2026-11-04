@@ -15,7 +15,7 @@ This document lists all GitHub Actions secrets required for CI/CD workflows in t
 1. Log in to [Docker Hub](https://hub.docker.com)
 2. Go to Account Settings → Security → Access Tokens
 3. Click "New Access Token"
-4. Name: `github-actions-hello-world-web`
+4. Name: `github-actions-web-platform-lab`
 5. Permissions: **Read & Write**
 6. Click "Generate"
 7. Copy the token immediately (it won't be shown again)
@@ -96,6 +96,9 @@ If you have Anthropic API access (but not Claude Pro/Max subscription), you can 
 - For detailed GCP setup instructions including Workload Identity Federation configuration, see [docs/cloud-run-deployment.md](./cloud-run-deployment.md)
 - For Google Artifact Registry setup, see [docs/google-artifact-registry-setup.md](./google-artifact-registry-setup.md)
 - `GAR_LOCATION` should match `GCP_REGION` for optimal Cloud Run performance
+- The `hello-world-web` examples are this project's real Cloud Run service and Artifact Registry repository. They keep
+  the name from before the rename to `web-platform-lab`, because neither can be renamed, only recreated; the image
+  inside the repository is named `web-platform-lab`.
 
 ## Setting Secrets
 

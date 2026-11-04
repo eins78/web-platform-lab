@@ -8,11 +8,15 @@ The application is deployed to Cloud Run as a "latest development" testing envir
 
 - **Primary Image Source**: Google Artifact Registry (instant availability, no propagation delay)
 - **Also published to**:
-  - `ghcr.io/eins78/hello-world-web:main` (GitHub Container Registry)
-  - `eins78/hello-world-web:main` (Docker Hub)
+  - `ghcr.io/eins78/web-platform-lab:main` (GitHub Container Registry)
+  - `eins78/web-platform-lab:main` (Docker Hub)
 - **Auto-deploy**: On merge to main branch (after Docker image is published)
 
 Configuration details (project ID, region, service name) are stored in GitHub Actions secrets for security.
+
+**Names from before the rename**: the GCP project (`hello-world-web-474516`), the Artifact Registry repository and the
+Cloud Run service keep the name `hello-world-web` that the examples below show, because none of them can be renamed,
+only recreated. Only the image name inside the repository changed to `web-platform-lab`.
 
 **Note**: The deployment now uses Google Artifact Registry for instant image availability. See [Google Artifact Registry Setup](google-artifact-registry-setup.md) for details. Docker Hub and GHCR images are still published for public availability.
 
@@ -41,7 +45,7 @@ export SERVICE_NAME="your-service-name"  # e.g., hello-world-web
 
 # Get the latest image SHA
 LATEST_SHA=$(gcloud artifacts docker images list \
-  ${GAR_LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${GAR_REPOSITORY}/hello-world-web \
+  ${GAR_LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${GAR_REPOSITORY}/web-platform-lab \
   --project=${GCP_PROJECT_ID} \
   --sort-by=~CREATE_TIME \
   --limit=1 \
@@ -79,7 +83,7 @@ export GCP_REGION="your-region"  # e.g., europe-west1
 export SERVICE_NAME="your-service-name"  # e.g., hello-world-web
 
 gcloud run deploy $SERVICE_NAME \
-  --image=index.docker.io/eins78/hello-world-web:main \
+  --image=index.docker.io/eins78/web-platform-lab:main \
   --region=$GCP_REGION \
   --project=$GCP_PROJECT_ID \
   --platform=managed \
@@ -105,8 +109,8 @@ gcloud run deploy $SERVICE_NAME \
 1. Code is merged to `main` branch
 2. `docker-image-publish.yml` workflow builds and publishes image to:
    - **Google Artifact Registry (GAR)**: Primary source for Cloud Run (instant availability)
-   - GitHub Container Registry (GHCR): `ghcr.io/eins78/hello-world-web:main`
-   - Docker Hub: `eins78/hello-world-web:main` (public availability)
+   - GitHub Container Registry (GHCR): `ghcr.io/eins78/web-platform-lab:main`
+   - Docker Hub: `eins78/web-platform-lab:main` (public availability)
 3. `cloud-run-deploy.yml` workflow automatically deploys to Cloud Run using the GAR image
 4. Health check verifies the deployment
 
@@ -158,7 +162,7 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 ```bash
 export WORKLOAD_IDENTITY_POOL="github-actions-pool"
 export WORKLOAD_IDENTITY_PROVIDER="github-actions-provider"
-export REPO="eins78/hello-world-web"
+export REPO="eins78/web-platform-lab"
 
 # Create workload identity pool
 gcloud iam workload-identity-pools create $WORKLOAD_IDENTITY_POOL \
@@ -192,6 +196,9 @@ gcloud iam service-accounts add-iam-policy-binding $SERVICE_ACCOUNT_EMAIL \
   --role="roles/iam.workloadIdentityUser" \
   --member="principalSet://iam.googleapis.com/${WORKLOAD_IDENTITY_POOL_ID}/attribute.repository/${REPO}"
 ```
+
+The binding is per repository name. When the repository is renamed, GitHub's token carries the new name, so add a
+binding for the new `REPO` before the rename and remove the old one once nothing runs under it.
 
 #### 6. Configure GitHub Repository Secrets
 
@@ -325,8 +332,8 @@ curl -v "${SERVICE_URL}/api/time?healthcheck"
 #### 2. Container Fails to Start
 - Check logs: `gcloud logging read ...`
 - Verify the image exists and is accessible:
-  - For GAR (primary): `gcloud artifacts docker images list ${GAR_LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${GAR_REPOSITORY}/hello-world-web`
-  - For Docker Hub: `docker pull eins78/hello-world-web:main` (note: use `index.docker.io` prefix in Cloud Run, not `docker.io`)
+  - For GAR (primary): `gcloud artifacts docker images list ${GAR_LOCATION}-docker.pkg.dev/${GCP_PROJECT_ID}/${GAR_REPOSITORY}/web-platform-lab`
+  - For Docker Hub: `docker pull eins78/web-platform-lab:main` (note: use `index.docker.io` prefix in Cloud Run, not `docker.io`)
 - Check that PORT environment variable is set correctly
 
 #### 3. Health Check Failures
@@ -345,7 +352,7 @@ curl -v "${SERVICE_URL}/api/time?healthcheck"
 
 Map a custom domain to your Cloud Run service to make it accessible via your own domain name instead of the default Cloud Run URL.
 
-**Example**: Map `dev.hello.kiste.li` to serve the development version of the app.
+**Example**: Map `test.lab.kiste.li` to serve the development version of the app.
 
 ### Prerequisites
 
@@ -374,7 +381,7 @@ Before mapping a domain, you must verify ownership with Google:
 export GCP_PROJECT_ID="your-project-id"
 export GCP_REGION="your-region"  # e.g., europe-west1
 export SERVICE_NAME="your-service-name"  # e.g., hello-world-web
-export CUSTOM_DOMAIN="your.example.com"   # e.g., dev.hello.kiste.li
+export CUSTOM_DOMAIN="your.example.com"   # e.g., test.lab.kiste.li
 
 # Create the mapping
 gcloud beta run domain-mappings create \
@@ -389,23 +396,23 @@ gcloud beta run domain-mappings create \
 **Example output**:
 ```
 Deploying domain mapping...
-✓ Creating domain mapping for [dev.hello.kiste.li]...done.
+✓ Creating domain mapping for [test.lab.kiste.li]...done.
 
 Please configure your DNS with the following records:
 
   NAME                    TYPE     DATA
-  dev.hello.kiste.li.     CNAME    ghs.googlehosted.com.
+  test.lab.kiste.li.     CNAME    ghs.googlehosted.com.
 ```
 
 ### Step 4: Configure DNS Records
 
 Add the DNS records provided by the previous command to your domain's DNS configuration.
 
-**Example for `dev.hello.kiste.li`**:
+**Example for `test.lab.kiste.li`**:
 
 | Type  | Name               | Value                  | TTL  |
 |-------|--------------------|------------------------|------|
-| CNAME | dev.hello.kiste.li | ghs.googlehosted.com   | 3600 |
+| CNAME | test.lab.kiste.li | ghs.googlehosted.com   | 3600 |
 
 **Common DNS providers**:
 - Cloudflare: DNS → Add record
@@ -539,7 +546,7 @@ Cloud Run does not support wildcard domain mappings (e.g., `*.example.com`). Eac
 
 ### Example: Complete Domain Mapping Flow
 
-Here's a complete example mapping `dev.hello.kiste.li`:
+Here's a complete example mapping `test.lab.kiste.li`:
 
 ```bash
 # 1. Install beta components
@@ -551,7 +558,7 @@ gcloud components install beta
 # 3. Create domain mapping
 export GCP_PROJECT_ID="hello-world-web-474516"
 export SERVICE_NAME="hello-world-web"
-export CUSTOM_DOMAIN="dev.hello.kiste.li"
+export CUSTOM_DOMAIN="test.lab.kiste.li"
 
 gcloud beta run domain-mappings create \
   --service=$SERVICE_NAME \
@@ -559,7 +566,7 @@ gcloud beta run domain-mappings create \
   --project=$GCP_PROJECT_ID
 
 # 4. Note the DNS records from the output, e.g.:
-# dev.hello.kiste.li.  CNAME  ghs.googlehosted.com.
+# test.lab.kiste.li.  CNAME  ghs.googlehosted.com.
 
 # 5. Add DNS record to your DNS provider
 # (Follow your DNS provider's interface)
@@ -568,7 +575,7 @@ gcloud beta run domain-mappings create \
 gcloud run services update $SERVICE_NAME \
   --region=europe-west1 \
   --project=$GCP_PROJECT_ID \
-  --set-env-vars="APP_TITLE=Hello Cloud Run (dev.hello.kiste.li)"
+  --set-env-vars="APP_TITLE=Hello Cloud Run (test.lab.kiste.li)"
 
 # 7. Wait for DNS propagation and test
 # (Usually takes 5-30 minutes)
