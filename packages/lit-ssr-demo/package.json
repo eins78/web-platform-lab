@@ -1,6 +1,6 @@
 {
   "name": "@web-platform-lab/lit-ssr-demo",
-  "version": "2.0.0-rc.3",
+  "version": "2.0.0",
   "description": "Lit SSR demo components served by web-platform-lab",
   "homepage": "https://github.com/eins78/web-platform-lab#readme",
   "repository": {
