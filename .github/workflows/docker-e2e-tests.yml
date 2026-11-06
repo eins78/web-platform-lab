@@ -58,14 +58,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # The browser builds are made per OS release, so ubuntu-24.04 and ubuntu-26.04 runners must not share a cache.
+      - name: Get OS release
+        id: os-release
+        run: . /etc/os-release && echo "id=${ID}-${VERSION_ID}" >> "$GITHUB_OUTPUT"
+
       - name: Cache Playwright browsers
         uses: actions/cache@v6
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-chromium-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-${{ steps.os-release.outputs.id }}-playwright-chromium-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-playwright-chromium-
+            ${{ runner.os }}-${{ steps.os-release.outputs.id }}-playwright-chromium-
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
