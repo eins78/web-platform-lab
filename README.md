@@ -1,4 +1,7 @@
-# Hello World (Wide) Web
+# Web Platform Lab
+
+> Formerly *Hello World (Wide) Web*, npm package `hello-world-web`. In 2.x the `hello-world-web` command still works
+> as an alias for `web-platform-lab`.
 
 Small toy web server with a few features to test and debug several HTTP- and web-related festures. 
 Usefull for testing Web features, infrastructure (Docker, Kubernetes, …), CI/CD workflows (builds, deployments, …), and other tools and services.
@@ -15,7 +18,7 @@ Run, then open <http://localhost:8080> or `open http://localhost:$PORT`.
 * **No configuration needed** - Works with sensible defaults
 * **Small footprint** - Less than 2MB in production
 * **Multiple deployment methods** - Run with npm, Docker, systemd, or cloud buildpacks
-* **Direct execution** - Run with `npx hello-world-web` without installation
+* **Direct execution** - Run with `npx web-platform-lab` without installation
 * **Development container** - Pre-configured devcontainer for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and GitHub Codespaces
 
 ### User Interface
@@ -35,7 +38,7 @@ All API endpoints support content negotiation (JSON, HTML, plain text) based on 
 
 Example:
 ```bash
-$ curl -L hello.kiste.li/api/client/userAgent
+$ curl -L lab.kiste.li/api/client/userAgent
 curl/8.11.0
 ```
 
@@ -66,10 +69,10 @@ The application can be configured through environment variables.
 | -------- | ----------- | ------- | ------- |
 | `PORT` | HTTP port for the server | `9999` | `8080` |
 | `BASE_PATH` | Base path for deployment under subdirectories | `/` | `/my-app/` |
-| `APP_TITLE` | Application title shown on homepage | `Hello World!` | `My <b>App</b>` |
+| `APP_TITLE` | Application title shown on homepage | `Web Platform Lab` | `My <b>App</b>` |
 | `APP_DESCRIPTION` | Application description (supports HTML) | `A simple web server for testing...` | `Welcome to my <b>awesome</b> server!` |
-| `APP_NAME` | Application name (read-only) | `hello-world-web` | - |
-| `APP_URL` | Repository or project URL | `https://github.com/eins78/hello-world-web` | - |
+| `APP_NAME` | Application name (read-only) | `web-platform-lab` | - |
+| `APP_URL` | Repository or project URL | `https://github.com/eins78/web-platform-lab` | - |
 | `APP_VERSION` | Application version | `version` from `package.json` | - |
 
 ### Port Configuration Precedence
@@ -101,7 +104,7 @@ it just helps to identifiy the healthcheck requests in logs.
 * with `docker` and `docker-compose`, see
 
     ```sh
-    ctr=hello-world-web-webserver-1
+    ctr=web-platform-lab-webserver-1
     docker inspect $ctr | jq '.[0].State.Health'
     ```
 
@@ -111,12 +114,12 @@ it just helps to identifiy the healthcheck requests in logs.
 
 The application is automatically deployed to Google Cloud Run when code is merged to the main branch.
 
-**Live Demo**: https://dev.hello.kiste.li
+**Live Demo**: https://test.lab.kiste.li
 
 **Container Registries**:
 - **Google Artifact Registry** - Primary registry for Cloud Run deployments (instant availability)
-- **GitHub Container Registry (GHCR)** - Public registry (`ghcr.io/eins78/hello-world-web`)
-- **Docker Hub** - Public registry (`eins78/hello-world-web`)
+- **GitHub Container Registry (GHCR)** - Public registry (`ghcr.io/eins78/web-platform-lab`)
+- **Docker Hub** - Public registry (`eins78/web-platform-lab`)
 
 For detailed setup instructions, see:
 - [Google Artifact Registry Setup](docs/google-artifact-registry-setup.md) - Fast Cloud Run deployments
@@ -124,7 +127,7 @@ For detailed setup instructions, see:
 
 ## Running on different platforms
 
-`hello-world-web` can be run on a variety of platforms, using different runtimes and tools.
+`web-platform-lab` can be run on a variety of platforms, using different runtimes and tools.
 
 ### Run with Node.js
 
@@ -155,14 +158,14 @@ npx .
 
 ```bash
 export PORT=8080
-npx hello-world-web
+npx web-platform-lab
 ```
 
 ### Run from latest code on github using `npx`
 
 ```bash
 export PORT=8080
-npx https://github.com/eins78/hello-world-web
+npx https://github.com/eins78/web-platform-lab
 ```
 
 ### Run with `docker`
@@ -172,14 +175,14 @@ Use a prebuilt image, or build one locally with Docker either directly or using 
 #### use a prebuilt image hosted on the Github Container registry
 
 ```bash
-IMG=ghcr.io/eins78/hello-world-web:main
+IMG=ghcr.io/eins78/web-platform-lab:main
 docker pull $IMG
 ```
 
 #### build locally and run
 
 ```bash
-IMG=hello-world-web
+IMG=web-platform-lab
 docker buildx build --load -t $IMG .
 # or with a different base image:
 docker buildx build --build-arg BASEIMAGE=node:slim --load -t $IMG .
@@ -190,13 +193,13 @@ docker buildx build --build-arg BASEIMAGE=node:slim --load -t $IMG .
 Builds in a docker "builder" Docker container and outputs a "runner" Docker image.
 
 * see [`buildpacks.io`](https://buildpacks.io)
-* images published (manually) on dockerhub: <https://hub.docker.com/r/eins78/hello-world-web-buildpacks>
+* images published (manually) on dockerhub, so far only under the old name: <https://hub.docker.com/r/eins78/hello-world-web-buildpacks>
 
 ```bash
 brew install buildpacks/tap/pack
 
 app_version="$(node -p 'require("./package.json").version')"
-IMG="eins78/hello-world-web-buildpacks:${app_version}.0"
+IMG="eins78/web-platform-lab-buildpacks:${app_version}.0"
 PACK_BUILDER="paketobuildpacks/builder:base"
 
 pack build "$IMG" --builder "$PACK_BUILDER"
@@ -224,13 +227,13 @@ docker compose up --build
 install systemd config and service:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/eins78/hello-world-web/main/deploy/systemd/hello-world-web.conf | sudo tee /etc/hello-world-web.conf
-curl -fsSL https://raw.githubusercontent.com/eins78/hello-world-web/main/deploy/systemd/hello-world-web-docker.service | sudo tee /etc/systemd/system/hello-world-web.service
+curl -fsSL https://raw.githubusercontent.com/eins78/web-platform-lab/main/deploy/systemd/web-platform-lab.conf | sudo tee /etc/web-platform-lab.conf
+curl -fsSL https://raw.githubusercontent.com/eins78/web-platform-lab/main/deploy/systemd/web-platform-lab-docker.service | sudo tee /etc/systemd/system/web-platform-lab.service
 sudo systemctl daemon-reload
-sudo systemctl enable hello-world-web
-sudo systemctl restart hello-world-web
-sudo systemctl status hello-world-web
-sudo journalctl -efu hello-world-web 
+sudo systemctl enable web-platform-lab
+sudo systemctl restart web-platform-lab
+sudo systemctl status web-platform-lab
+sudo journalctl -efu web-platform-lab 
 ```
 
 ### Run with `systemd` and `node.js`
@@ -246,17 +249,33 @@ sudo apt-get install -y nodejs
 install app code, config and systemd service:
 
 ```bash
-sudo git clone https://github.com/eins78/hello-world-web.git /opt/hello-world-web
-sudo cp /opt/hello-world-web/deploy/systemd/hello-world-web.conf /etc/hello-world-web.conf
-sudo cp /opt/hello-world-web/deploy/systemd/hello-world-web.service /etc/systemd/system/hello-world-web.service
+sudo git clone https://github.com/eins78/web-platform-lab.git /opt/web-platform-lab
+sudo cp /opt/web-platform-lab/deploy/systemd/web-platform-lab.conf /etc/web-platform-lab.conf
+sudo cp /opt/web-platform-lab/deploy/systemd/web-platform-lab.service /etc/systemd/system/web-platform-lab.service
 sudo mkdir -p /var/www/
-sudo chown -R www-data /var/www /opt/hello-world-web /etc/hello-world-web.conf
+sudo chown -R www-data /var/www /opt/web-platform-lab /etc/web-platform-lab.conf
 sudo systemctl daemon-reload
-sudo systemctl enable hello-world-web
-sudo systemctl restart hello-world-web
-sudo systemctl status hello-world-web
-sudo journalctl -efu hello-world-web 
+sudo systemctl enable web-platform-lab
+sudo systemctl restart web-platform-lab
+sudo systemctl status web-platform-lab
+sudo journalctl -efu web-platform-lab 
 ```
+
+#### Moving an install from before the rename
+
+Before 2.0.0 the unit was `hello-world-web.service`, with the config in `/etc/hello-world-web.conf` (and the code in
+`/opt/hello-world-web` for the `node.js` variant). Remove the old unit and keep your config under the new name:
+
+```bash
+sudo systemctl disable --now hello-world-web
+sudo rm /etc/systemd/system/hello-world-web.service
+sudo mv /etc/hello-world-web.conf /etc/web-platform-lab.conf
+# node.js variant only:
+sudo mv /opt/hello-world-web /opt/web-platform-lab
+```
+
+Then install the new unit as above, skipping the line that writes the config file. If your config sets
+`DEBUG="hello-world-web:*"`, change it to `DEBUG="web-platform-lab:*"`.
 
 ## Development
 
@@ -309,4 +328,4 @@ Non-Major updates are automatically merged after the CI checks pass.
 When updating the renovate config (`renovate.json5`), the branch should be prefixed with `renovate/` so that the bot will validate the changes when a PR is created.
 
 * Docs: <https://docs.renovatebot.com/configuration-options/>
-* [Dependency Dashboard](https://github.com/eins78/hello-world-web/issues/46)
+* [Dependency Dashboard](https://github.com/eins78/web-platform-lab/issues/46)

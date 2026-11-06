@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: development
-      url: https://dev.hello.kiste.li
+      url: https://test.lab.kiste.li
 
     permissions:
       contents: read
@@ -68,7 +68,7 @@ jobs:
         run: |
           # Use Google Artifact Registry for instant availability (no propagation delay)
           # Use full commit SHA for reliable image tag matching (docker/metadata-action uses format=long)
-          IMAGE="${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/hello-world-web:sha-${{ github.sha }}"
+          IMAGE="${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/web-platform-lab:sha-${{ github.sha }}"
           echo "image=$IMAGE" >> $GITHUB_OUTPUT
           echo "Deploying image: $IMAGE"
 

@@ -1,13 +1,13 @@
 services:
   webserver:
     # use 'image' tag if it exists, or 'build' with this config and tag as such
-    image: hello-world-web:latest
+    image: web-platform-lab:latest
     build:
       context: .
     environment:
       - "PORT=${PORT?configure the http port!}"
       - "APP_TITLE=Hello docker-compose!"
-      - 'APP_DESCRIPTION=This is an <a target="_blank" href="https://github.com/eins78/hello-world-web">open source</a> demo web server for testing and debugging web infrastructure.'
+      - 'APP_DESCRIPTION=This is an <a target="_blank" href="https://github.com/eins78/web-platform-lab">open source</a> demo web server for testing and debugging web infrastructure.'
       - "BASE_PATH"
     ports:
       # format "host:container", container must match with environment.PORT

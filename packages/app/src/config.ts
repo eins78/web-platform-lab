@@ -12,10 +12,10 @@ const config = {
   httpPort: env.PORT ?? "9999",
   basePath: join(env.BASE_PATH ?? "", "/"),
   content: {
-    appName: "hello-world-web",
+    appName: "web-platform-lab",
     appVersion: env.APP_VERSION ?? version,
-    appUrl: env.APP_URL ?? "https://github.com/eins78/hello-world-web",
-    appTitle: env.APP_TITLE ?? `Hello World!`,
+    appUrl: env.APP_URL ?? "https://github.com/eins78/web-platform-lab",
+    appTitle: env.APP_TITLE ?? `Web Platform Lab`,
     appDescription: env.APP_DESCRIPTION ?? "A simple web server for testing and debugging web infrastructure.", // WARNING: Accepts HTML - only use trusted content to avoid XSS
     ciRunUrl: env.CI_RUN_URL, // Optional: link to CI run that deployed this version
     ciRunNumber: env.CI_RUN_NUMBER, // Optional: CI run number for display (e.g., "123")
@@ -25,7 +25,7 @@ const config = {
     garProjectId: env.GAR_PROJECT_ID, // Optional: Google Artifact Registry project ID
     garLocation: env.GAR_LOCATION, // Optional: Google Artifact Registry location (e.g., "europe-west6")
     garRepository: env.GAR_REPOSITORY, // Optional: Google Artifact Registry repository name
-    garImageName: env.GAR_IMAGE_NAME ?? "hello-world-web", // Optional: GAR image name (defaults to appName)
+    garImageName: env.GAR_IMAGE_NAME ?? "web-platform-lab", // Optional: GAR image name (defaults to appName)
   },
 } as const;
 

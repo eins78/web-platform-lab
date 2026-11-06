@@ -7,7 +7,7 @@ Feature: Homepage welcome and server information
     Given I am on the homepage
 
   Scenario: Viewing the welcome message
-    Then the page title should be "Hello World!"
+    Then the page title should be "Web Platform Lab"
 
   Scenario: Server configuration is initially hidden
     Then the server configuration section should be collapsed

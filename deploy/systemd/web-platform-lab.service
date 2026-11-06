@@ -1,12 +1,12 @@
 [Unit]
-Description=Hello World Web Server
-Documentation=https://github.com/eins78/hello-world-web/blob/main/README.md
+Description=Web Platform Lab
+Documentation=https://github.com/eins78/web-platform-lab/blob/main/README.md
 
 [Service]
 User=www-data
-WorkingDirectory=/opt/hello-world-web/
+WorkingDirectory=/opt/web-platform-lab/
 # optional config file
-EnvironmentFile=-/etc/hello-world-web.conf
+EnvironmentFile=-/etc/web-platform-lab.conf
 # nodejs: allow binding to ports below 1024 for non-root users
 ExecStartPre=!/usr/sbin/setcap 'cap_net_bind_service=+ep' /usr/bin/node
 # nodejs: enable pnpm

@@ -1,6 +1,6 @@
 # Git Workflow Guide
 
-This guide explains the Git workflow and PR management process for the hello-world-web project.
+This guide explains the Git workflow and PR management process for the web-platform-lab project.
 
 ## Standard PR Workflow
 
@@ -133,7 +133,7 @@ After pushing your fixes, reply to each comment explaining what was fixed and re
 
 ```bash
 # Reply to a specific comment
-gh api -X POST repos/eins78/hello-world-web/pulls/{pr_number}/comments/{comment_id}/replies \
+gh api -X POST repos/eins78/web-platform-lab/pulls/{pr_number}/comments/{comment_id}/replies \
   -f body="✅ Fixed in {commit_sha} - {description of fix}"
 ```
 
@@ -147,7 +147,7 @@ Use GitHub GraphQL API to mark threads as resolved:
 # First, get all unresolved threads
 gh api graphql -f query='
 query {
-  repository(owner: "eins78", name: "hello-world-web") {
+  repository(owner: "eins78", name: "web-platform-lab") {
     pullRequest(number: {pr_number}) {
       reviewThreads(first: 20) {
         nodes {

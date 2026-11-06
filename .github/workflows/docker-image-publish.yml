@@ -59,9 +59,13 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           # list of Docker images to use as base name for tags (PRs don't have access to GAR secrets)
+          # transition after the rename: also tag the old hello-world-web names until the
+          # deployments have moved to web-platform-lab, then drop the last two lines
           images: |
             ghcr.io/${{ github.repository }}
             docker.io/${{ github.repository }}
+            ghcr.io/eins78/hello-world-web
+            docker.io/eins78/hello-world-web
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule
@@ -79,10 +83,14 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           # list of Docker images to use as base name for tags
+          # transition after the rename: also push the old hello-world-web names until the
+          # deployments have moved to web-platform-lab, then drop the last two lines
           images: |
             ghcr.io/${{ github.repository }}
             docker.io/${{ github.repository }}
-            ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/hello-world-web
+            ${{ secrets.GAR_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/web-platform-lab
+            ghcr.io/eins78/hello-world-web
+            docker.io/eins78/hello-world-web
           # generate Docker tags based on the following events/attributes
           tags: |
             type=schedule

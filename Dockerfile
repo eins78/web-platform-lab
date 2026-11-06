@@ -10,7 +10,7 @@ WORKDIR /build
 # to optimize docker layer caching, copy the minimum set of files needed to fetch dependencies
 COPY .npmrc pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-    pnpm fetch --filter='!@hello-world-web/*tests'
+    pnpm fetch --filter='!@web-platform-lab/*tests'
 
 # copy workspace
 COPY . .
@@ -18,7 +18,7 @@ COPY . .
 # install dependencies
 # FIXME: use --offline instead of --prefer-offline
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-    pnpm install --prefer-offline --frozen-lockfile --filter='!@hello-world-web/*tests'
+    pnpm install --prefer-offline --frozen-lockfile --filter='!@web-platform-lab/*tests'
 
 RUN pnpm run build
 
@@ -52,7 +52,7 @@ EXPOSE 7777
 HEALTHCHECK CMD node --experimental-strip-types --experimental-fetch --no-warnings src/bin/healthcheck.mts || exit 1
 
 ENV APP_TITLE="Hello Dockerfile!"
-ENV DEBUG=hello-world-web:*
+ENV DEBUG=web-platform-lab:*
 
 # start app
 CMD ["node", "--experimental-strip-types", "./src/bin/www.ts"]

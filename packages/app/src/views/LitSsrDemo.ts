@@ -9,7 +9,7 @@ import {
   DataTableComponent,
   EpochCounterComponent,
   registerCustomElements,
-} from "@hello-world-web/lit-ssr-demo/server";
+} from "@web-platform-lab/lit-ssr-demo/server";
 import type { JSON, JsonObject } from "../support/json.js";
 import type { ServerTemplate } from "../support/render-view/renderView.js";
 
