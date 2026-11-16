@@ -1,3 +1,6 @@
+# CI passes SOURCE_DATE_EPOCH (the commit date) as a build-arg; BuildKit uses it for the
+# image timestamps without an ARG here. See docs/eu-cra-compliance.md for SBOMs and signing.
+
 ARG BASEIMAGE
 FROM ${BASEIMAGE:-"node:26-alpine"} AS builder
 
