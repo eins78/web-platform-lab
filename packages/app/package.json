@@ -1,6 +1,6 @@
 {
   "name": "web-platform-lab",
-  "version": "2.0.0-rc.3",
+  "version": "2.0.0",
   "description": "Small web server for testing and debugging HTTP, web platform features and web infrastructure (formerly hello-world-web)",
   "keywords": [
     "web-platform",
